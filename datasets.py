@@ -1,19 +1,32 @@
+import io
+
 import numpy as np
+import pandas as pd
 import scipy
 from sklearn.datasets import fetch_california_housing
-from ucimlrepo import fetch_ucirepo
 
 
 def get_mpg():
-    auto_mpg = fetch_ucirepo(id=9).data
+    with open("data/auto-mpg.data-original", "r") as file:
+        data = file.read()
 
-    # data (as pandas dataframes)
-    data = auto_mpg.features
-    features_name = data.columns
-    data["y"] = auto_mpg.targets.values[:, 0]
-    data = data.dropna()
+    # Replace any multiple spaces with a single space and split the lines
+    data = "\n".join(" ".join(line.split()) for line in data.split("\n"))
 
-    return data[features_name].values, data["y"].values
+    # Use pandas to read the data into a DataFrame
+    column_names = [
+        "mpg", "cylinders", "displacement", "horsepower",
+        "weight", "acceleration", "year", "origin", "name"
+    ]
+    df = pd.read_csv(
+        io.StringIO(data), header=None,
+        delimiter=r"\s+", names=column_names
+    ).dropna()
+
+    y = df["mpg"].values
+    X = df[[col for col in df.columns if col not in ["mpg", "name"]]].values
+
+    return X, y
 
 
 def _wing_weight(x, noisy=False):
