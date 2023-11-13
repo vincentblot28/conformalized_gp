@@ -14,11 +14,13 @@ from sklearn.utils.validation import (_check_y, check_is_fitted,
 from mapie._typing import ArrayLike, NDArray
 from mapie.conformity_scores import (ConformityScore,
                                      ResidualNormalisedScore)
-from mapie.estimator.estimator import EnsembleRegressor
+from mapie.estimator.estimator import EnsembleRegressor, EnsembleStdRegressor
 from mapie.utils import (check_alpha, check_alpha_and_n_samples,
                          check_conformity_score, check_cv,
-                         check_estimator_fit_predict, check_n_features_in,
-                         check_n_jobs, check_null_weight, check_verbose)
+                         check_estimator_fit_predict,
+                         check_model_has_std_argument, check_n_features_in,
+                         check_n_jobs, check_null_weight,
+                         check_verbose)
 
 
 class MapieRegressor(BaseEstimator, RegressorMixin):
@@ -150,6 +152,14 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
 
         By default ``None``.
 
+    model_has_std: Optional[bool]
+        Wether or not the regression model can also output an estimator of the
+        standard deviation of the prediction (Gaussian Processes for example).
+        If `True`, then this value will be used to normalize the conformity
+        score to have more adaptive predicion intervals.
+
+        By default `False`.
+
     random_state: Optional[Union[int, RandomState]]
         Pseudo random number generator state used for random sampling.
         Pass an int for reproducible output across multiple function calls.
@@ -226,6 +236,7 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
         agg_function: Optional[str] = "mean",
         verbose: int = 0,
         conformity_score: Optional[ConformityScore] = None,
+        model_has_std: Optional[bool] = False,
         random_state: Optional[Union[int, np.random.RandomState]] = None,
     ) -> None:
         self.estimator = estimator
@@ -236,6 +247,7 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
         self.agg_function = agg_function
         self.verbose = verbose
         self.conformity_score = conformity_score
+        self.model_has_std = model_has_std
         self.random_state = random_state
 
     def _check_parameters(self) -> None:
@@ -251,6 +263,7 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
         check_n_jobs(self.n_jobs)
         check_verbose(self.verbose)
         check_random_state(self.random_state)
+        check_model_has_std_argument(self.model_has_std)
 
     def _check_method(
         self, method: str
@@ -440,7 +453,7 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
 
         # Casting
         cv = cast(BaseCrossValidator, cv)
-        estimator = cast(RegressorMixin, estimator)
+        # estimator = cast(RegressorMixin, estimator)
         cs_estimator = cast(ConformityScore, cs_estimator)
         agg_function = cast(Optional[str], agg_function)
         X = cast(NDArray, X)
@@ -494,26 +507,38 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
          X,
          y,
          sample_weight) = self._check_fit_parameters(X, y, sample_weight)
-
-        self.estimator_ = EnsembleRegressor(
-            estimator,
-            self.method,
-            cv,
-            agg_function,
-            self.n_jobs,
-            self.random_state,
-            self.test_size,
-            self.verbose
-        )
-        # Fit the prediction function
-        self.estimator_ = self.estimator_.fit(X, y, sample_weight)
-        y_pred = self.estimator_.predict_calib(X)
-
-        # Compute the conformity scores (manage jk-ab case)
-        self.conformity_scores_ = \
-            self.conformity_score_function_.get_conformity_scores(
-                X, y, y_pred
+        if not isinstance(estimator, EnsembleRegressor):
+            my_regressor = (
+                EnsembleRegressor if not self.model_has_std
+                else EnsembleStdRegressor
             )
+            self.estimator_ = my_regressor(
+                estimator,
+                self.method,
+                cv,
+                agg_function,
+                self.n_jobs,
+                self.random_state,
+                self.test_size,
+                self.verbose
+            )
+        else:
+            self.estimator_ = estimator
+        if not check_is_fitted(self.estimator_):
+            self.estimator_ = self.estimator_.fit(X, y, sample_weight)
+
+        if self.model_has_std:
+            y_pred, y_std = self.estimator_.predict_calib(X)
+            self.conformity_scores_ = \
+                self.conformity_score_function_.get_conformity_scores(
+                    X, y, y_pred, y_std
+                )
+        else:
+            y_pred = self.estimator_.predict_calib(X)
+            self.conformity_scores_ = \
+                self.conformity_score_function_.get_conformity_scores(
+                    X, y, y_pred
+                )
 
         return self
 
