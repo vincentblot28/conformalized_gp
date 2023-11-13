@@ -524,7 +524,7 @@ class MapieRegressor(BaseEstimator, RegressorMixin):
             )
         else:
             self.estimator_ = estimator
-        if not check_is_fitted(self.estimator_):
+        if not self.estimator_.__sklearn_is_fitted__():
             self.estimator_ = self.estimator_.fit(X, y, sample_weight)
 
         if self.model_has_std:
