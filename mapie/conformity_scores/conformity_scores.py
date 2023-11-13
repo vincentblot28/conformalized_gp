@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 
 import numpy as np
-from typing import Tuple
+from typing import Tuple, Union
 
 from mapie._compatibility import np_nanquantile
 from mapie._typing import ArrayLike, NDArray
@@ -59,6 +59,7 @@ class ConformityScore(metaclass=ABCMeta):
         X: ArrayLike,
         y: ArrayLike,
         y_pred: ArrayLike,
+        y_std: Union[ArrayLike, None],
     ) -> NDArray:
         """
         Placeholder for ``get_signed_conformity_scores``.
@@ -77,6 +78,11 @@ class ConformityScore(metaclass=ABCMeta):
 
         y_pred: ArrayLike of shape (n_samples,)
             Predicted target values.
+
+        y_std: Union[ArrayLike, None] of shape (n_samples,)
+            If using a predictor which returns a standard deviation.
+
+            By default `None`
 
         Returns
         -------
