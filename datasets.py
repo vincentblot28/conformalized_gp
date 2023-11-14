@@ -39,7 +39,7 @@ def _wing_weight(x, noisy=False):
     t7 = (x[:, 7] * x[:, 8])**(.49)
     t8 = x[:, 0] * x[:, 9]
     if noisy:
-        noise = np.random.normal(0, 25, x.shape[0])
+        noise = np.random.normal(0, 5, x.shape[0])
         return t1 * t2 * t3 * t4 * t5 * t6 * t7 + t8 + noise
     else:
         return t1 * t2 * t3 * t4 * t5 * t6 * t7 + t8
@@ -65,7 +65,7 @@ def get_wing_weight(noisy=False):
 
 
 def _noisy_morokoff(x, d, noisy):
-    noise = np.random.normal(0, 1e-4, x.shape[0]) if noisy else 0
+    noise = np.random.normal(0, np.sqrt(1e-4), x.shape[0]) if noisy else 0
     return .5 * (1 + 1 / d)**d * (x ** (1 / d)).prod(axis=1) + noise
 
 
