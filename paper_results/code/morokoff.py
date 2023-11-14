@@ -18,11 +18,11 @@ from mapie.metrics import (
 )
 from mapie.regression import MapieRegressor
 from mapie.metrics import spearman_correlation, q2
-from datasets import get_cpu
+from datasets import get_morokoff
 from wrappers import GpOTtoSklearnStd
 
 
-X, y = get_cpu()
+X, y = get_morokoff(noisy=True)
 
 
 print(X.shape, y.shape)
@@ -277,6 +277,7 @@ df_width = pd.DataFrame(
     index=index
 )
 
+
 index = pd.MultiIndex.from_tuples([("Coverage", i) for i in 1 - ALPHA])
 
 df_cov = pd.DataFrame(
@@ -306,4 +307,4 @@ df_spearman = pd.DataFrame(
 
 df_results = pd.concat([df_cov.T, df_width.T, df_spearman.T], axis=1)
 
-df_results.to_csv("paper_results/cpu_results.csv")
+df_results.to_csv("paper_results/table_results/morokoff_results.csv")

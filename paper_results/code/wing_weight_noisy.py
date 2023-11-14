@@ -18,11 +18,11 @@ from mapie.metrics import (
 )
 from mapie.regression import MapieRegressor
 from mapie.metrics import spearman_correlation, q2
-from datasets import get_morokoff
+from datasets import get_wing_weight
 from wrappers import GpOTtoSklearnStd
 
 
-X, y = get_morokoff(noisy=True)
+X, y = get_wing_weight(noisy=True)
 
 
 print(X.shape, y.shape)
@@ -307,4 +307,4 @@ df_spearman = pd.DataFrame(
 
 df_results = pd.concat([df_cov.T, df_width.T, df_spearman.T], axis=1)
 
-df_results.to_csv("paper_results/morokoff_results.csv")
+df_results.to_csv("paper_results/table_results/wing_weight_results.csv")
