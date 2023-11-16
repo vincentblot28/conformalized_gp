@@ -50,7 +50,7 @@ X_test_scale = scaler.transform(X_test)
 # Define all possible models
 
 
-noise = .15
+noise = .1
 
 
 nus = [1/2, 3/2, 5/2]
