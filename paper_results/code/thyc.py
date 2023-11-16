@@ -166,7 +166,7 @@ for model_name, model in models.items():
             estimator_ = copy(
                 global_models[nu]["mapie_estimator_no_std"].estimator_
             )
-            estimator_.method = "plus"
+            estimator_.method = method
 
         models[model_name]["mapie_estimator"] = MapieRegressor(
             estimator=estimator_,
