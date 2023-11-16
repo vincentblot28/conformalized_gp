@@ -50,7 +50,7 @@ X_test_scale = scaler.transform(X_test)
 # Define all possible models
 
 
-noise = .1
+noise = .15
 
 
 nus = [1/2, 3/2, 5/2]
@@ -60,6 +60,9 @@ models_hp = {
         "nu": {nu: [1] for nu in nus}
     },
     "J+": {
+        "nu": {nu: [1] for nu in nus}
+    },
+    "J-minmax": {
         "nu": {nu: [1] for nu in nus}
     },
     "J+GP": {
