@@ -8,10 +8,18 @@ Conformalizing Gaussian Processes For More Robust Uncertainty Quantification
 ===============
 Python 3.7+ 
 
-**OSX**: ACPI uses Cython extensions that need to be compiled with multi-threading support enabled. 
-The default Apple Clang compiler does not support OpenMP.
-To solve this issue, obtain the lastest gcc version with Homebrew that has multi-threading enabled: 
-see for example [pysteps installation for OSX.](https://pypi.org/project/pysteps/1.0.0/)
+[OpenTURNS](https://openturns.github.io/www/index.html) is a C++ library made, hence one can need to install gcc to be able to run the library
+
+**Ubuntu**:
+```
+$ sudo apt update
+$ sudo apt install build-essential
+```
+
+**OSX**: 
+```
+$ brew install gcc
+```
 
 **Windows**: Install MinGW (a Windows distribution of gcc) or Microsoft’s Visual C
 
