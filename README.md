@@ -80,7 +80,7 @@ plt.plot(x_mesh, g(x_mesh))
 plt.xlabel("$x$")
 plt.ylabel("$g(x)$")
 ```
-![toy function](https://github.com/vincentblot28/conformalized_gp/blob/ADD-readme-and-toy-notebook/plots/toy_function.png)
+![toy function](https://github.com/vincentblot28/conformalized_gp/blob/main/plots/toy_function.png)
 
 - Then we split our data into train and test and train au sickit-learn `GaussianProcessRegressor` with a `RBF` kernel.
 
@@ -175,5 +175,5 @@ ax.legend(
 ax.set_xlabel("$x$")
 ax.set_ylabel("$g(x)$")
 ```
-![toy function intervals](https://github.com/vincentblot28/conformalized_gp/blob/ADD-readme-and-toy-notebook/plots/intervals_toy_function.png)
+![toy function intervals](https://github.com/vincentblot28/conformalized_gp/blob/main/plots/intervals_toy_function.png)
 
