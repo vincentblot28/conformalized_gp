@@ -266,7 +266,8 @@ for model_name, model in models.items():
             (np.array(str_vect), ),
             spearman_correlation,
             axis=0,
-            n_resamples=999
+            n_resamples=999,
+            random_state=42
         ))
 
 
