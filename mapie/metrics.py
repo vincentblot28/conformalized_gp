@@ -2,6 +2,7 @@ from typing import Optional, cast, Union, Tuple
 
 import scipy
 import numpy as np
+from scipy.stats import spearmanr
 from sklearn.utils import check_random_state
 from sklearn.utils.validation import check_array, column_or_1d
 
@@ -1444,3 +1445,16 @@ def spiegelhalter_p_value(y_true: NDArray, y_score: NDArray) -> float:
     sp_stat = spiegelhalter_statistic(y_true, y_score)
     sp_p_value = 1 - scipy.stats.norm.cdf(sp_stat)
     return sp_p_value
+
+
+def spearman_correlation(data, *args, **kwargs):
+    data_split = [i.split('--') for i in data]
+    data_float = np.array(data_split).astype(float)
+    return spearmanr(
+        data_float[:, 0],
+        data_float[:, 1]
+    ).correlation
+
+
+def q2(y, y_pred):
+    return 1 - (np.sum((y - y_pred) ** 2) / np.sum((y - np.mean(y)) ** 2))
