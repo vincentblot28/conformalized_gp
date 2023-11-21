@@ -48,6 +48,7 @@ $ pip install .
 ==============
 Here is a quickstart to use the Jackknife+GP method on any regression dataset. Here, the goal is the compare
 visually the results given by the standard Jackknife+ method, the Credibility Intervals and our methodology.
+The notebook from which this quickstart is inspired can be found [here](https://github.com/vincentblot28/conformalized_gp/blob/main/notebook/conformalized_gp_quickstart.ipynb)
 
 
 We first start to import the necessary packages
