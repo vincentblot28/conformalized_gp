@@ -7,17 +7,18 @@ from scipy.stats import bootstrap
 
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 
 from mapie.conformity_scores.residual_conformity_scores import (
     GPConformityScore
 )
 from mapie.metrics import (
+    q2,
     regression_coverage_score_v2,
-    regression_mean_width_score
+    regression_mean_width_score,
+    spearman_correlation
 )
 from mapie.regression import MapieRegressor
-from mapie.metrics import spearman_correlation, q2
+from mapie.utils import custom_scaler, get_std_from_triangular_law
 from datasets import get_thyc
 from wrappers import GpOTtoSklearnStd
 
@@ -37,14 +38,6 @@ print(
     f"  N training points = {len(X_train)}\n",
     f" N testing points = {len(X_test)}"
 )
-
-
-# Get data in the right format
-
-scaler = StandardScaler().fit(X_train)
-X_train = scaler.transform(X_train)
-X_test = scaler.transform(X_test)
-
 
 # Define all possible models
 

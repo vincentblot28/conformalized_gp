@@ -43,8 +43,8 @@ print(
 
 
 scaler = StandardScaler().fit(X_train)
-X_train_scale = scaler.transform(X_train)
-X_test_scale = scaler.transform(X_test)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
 
 
 # Define all possible models
@@ -100,7 +100,7 @@ models.keys()
 for model_name, model in models.items():
     if model_name[0] == "GP":
         print("Fitting ", model_name)
-        model["estimator"].fit(X_train_scale, y_train)
+        model["estimator"].fit(X_train, y_train)
 
 
 for model_name, model in models.items():
@@ -109,7 +109,7 @@ for model_name, model in models.items():
             model_name,
             "MSE:",
             mean_squared_error(
-                y_test, model["estimator"].predict(X_test_scale)
+                y_test, model["estimator"].predict(X_test)
             )
         )
 
@@ -120,7 +120,7 @@ for model_name, model in models.items():
             model_name,
             "Q2:",
             q2(
-                y_test, model["estimator"].predict(X_test_scale)
+                y_test, model["estimator"].predict(X_test)
             )
         )
 
@@ -148,9 +148,9 @@ for model_name, model in global_models.items():
 
 for model_name, model in global_models.items():
     print("Fitting Global model std", model_name)
-    model["mapie_estimator_std"].fit(X_train_scale, y_train)
+    model["mapie_estimator_std"].fit(X_train, y_train)
     print("Fitting Global model no std", model_name)
-    model["mapie_estimator_no_std"].fit(X_train_scale, y_train)
+    model["mapie_estimator_no_std"].fit(X_train, y_train)
 
 for model_name, model in models.items():
     if model_name[0] != "GP":
@@ -188,7 +188,7 @@ for model_name, model in models.items():
 for model_name, model in models.items():
     if model_name[0] != "GP":
         print("Fitting MAPIE", model_name)
-        model["mapie_estimator"].fit(X_train_scale, y_train)
+        model["mapie_estimator"].fit(X_train, y_train)
 
 # Coverage
 ALPHA = np.array([.1, .05, .01])
@@ -197,7 +197,7 @@ q_alpha_max = scipy.stats.norm.ppf(1 - ALPHA / 2)
 for model_name, model in models.items():
     if model_name[0] == "GP":
         y_mean, y_std = model["estimator"].predict(
-            X_test_scale, return_std=True
+            X_test, return_std=True
         )
         y_pss_gp = np.concatenate(
             [
@@ -218,7 +218,7 @@ for model_name, model in models.items():
 for model_name, model in models.items():
     if model_name[0] != "GP":
         print("Predict MAPIE", model_name)
-        _, y_pss = model["mapie_estimator"].predict(X_test_scale, alpha=ALPHA)
+        _, y_pss = model["mapie_estimator"].predict(X_test, alpha=ALPHA)
         model["y_pss"] = y_pss
 
 
@@ -240,14 +240,14 @@ for model_name, model in models.items():
 for model_name, model in models.items():
     if model_name[0] != "GP":
         model["errors"] = np.abs(
-            model["mapie_estimator"].predict(X_test_scale, alpha=None) - y_test
+            model["mapie_estimator"].predict(X_test, alpha=None) - y_test
         )
         model["width"] = np.abs(
             model["y_pss"][:, 0, :] - model["y_pss"][:, 1, :]
         )
     else:
         model["errors"] = np.abs(
-            model["estimator"].predict(X_test_scale) - y_test
+            model["estimator"].predict(X_test) - y_test
         )
         model["width"] = np.abs(
             model["y_pss"][:, 0, :] - model["y_pss"][:, 1, :]
