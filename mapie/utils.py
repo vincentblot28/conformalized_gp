@@ -1294,3 +1294,49 @@ def check_arrays_length(*arrays: NDArray) -> None:
         raise ValueError(
                 "There are arrays with different length"
             )
+
+
+def custom_scaler(X, mean, std):
+    """
+    Custom scaler function to scale the data with the mean and std
+    of the training set.
+
+    Parameters
+    ----------
+    X: ArrayLike
+        Data to scale.
+    mean: NDArray
+        Mean of the training set.
+    std: NDArray
+        Standard deviation of the training set.
+
+    Returns
+    -------
+    ArrayLike
+        Scaled data.
+    """
+    return (X - mean) / std
+
+
+def get_std_from_triangular_law(a, b, c):
+    """
+    Compute the standard deviation of a triangular distribution
+    from its parameters.
+
+    Parameters
+    ----------
+    a: float
+        Lower bound of the distribution.
+    b: float
+        Upper bound of the distribution.
+    c: float
+        Mode of the distribution.
+
+    Returns
+    -------
+    float
+        Standard deviation of the distribution.
+    """
+    return np.sqrt(
+        (a ** 2 + b ** 2 + c ** 2 - a * b - a * c - b * c) / 18
+    )
