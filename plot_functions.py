@@ -40,7 +40,10 @@ def plot_width_error(model, model_name, ax, index_confidence):
     )
 
 
-def plot_boxplot(models, alpha, color1, color2, color3, objective="correlation"):
+def plot_boxplot(
+        models, alpha, color1, color2, color3,
+        objective="correlation", save=False, filename=None
+):
     if objective == "width":
         item_dict = "boostrapped_width"
         y_label = "Bootstrapped width"
@@ -80,3 +83,6 @@ def plot_boxplot(models, alpha, color1, color2, color3, objective="correlation")
     plt.ylabel(y_label, fontsize=25)
     plt.yticks(fontsize=25)
     plt.xticks(fontsize=25)
+    if save:
+        plt.savefig(filename, bbox_inches="tight")
+    plt.show()
