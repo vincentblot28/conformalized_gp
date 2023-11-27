@@ -1,3 +1,5 @@
+from fractions import Fraction
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -41,7 +43,7 @@ def plot_width_error(model, model_name, ax, index_confidence):
 
 
 def plot_boxplot(
-        models, alpha, color1, color2, color3,
+        models, alpha, color1, color2, color3, nus, betas,
         objective="correlation", save=False, filename=None
 ):
     if objective == "width":
@@ -83,6 +85,12 @@ def plot_boxplot(
     plt.ylabel(y_label, fontsize=25)
     plt.yticks(fontsize=25)
     plt.xticks(fontsize=25)
+    plt.title(
+        r"Boxplots for Matérn($\nu=" + str(Fraction(nus[0])) +
+        r"$), $\beta=" + str(betas[0]) + r"$" "\n",
+        fontsize=30
+    )
+    plt.axhline(0, color=".3", dashes=(2, 2))
     if save:
         plt.savefig(filename, bbox_inches="tight")
     plt.show()
