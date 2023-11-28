@@ -18,7 +18,6 @@ from mapie.metrics import (
     spearman_correlation
 )
 from mapie.regression import MapieRegressor
-from mapie.utils import custom_scaler, get_std_from_triangular_law
 from datasets import get_thyc
 from wrappers import GpOTtoSklearnStd
 
