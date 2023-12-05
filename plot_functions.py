@@ -44,7 +44,7 @@ def plot_width_error(model, model_name, ax, index_confidence):
 
 def plot_boxplot(
         models, alpha, color1, color2, color3, nus, betas,
-        objective="correlation", save=False, filename=None
+        dataset, objective="correlation", save=False
 ):
     if objective == "width":
         item_dict = "boostrapped_width"
@@ -70,6 +70,7 @@ def plot_boxplot(
             ] for model_name, model in models.items()
         ]
     )
+
     palette = {.9: color1, .95: color2, .99: color3}
     _ = plt.figure(figsize=(18, 14))
     sns.set_palette("bright")
@@ -86,11 +87,13 @@ def plot_boxplot(
     plt.yticks(fontsize=25)
     plt.xticks(fontsize=25)
     plt.title(
-        r"Boxplots for Matérn($\nu=" + str(Fraction(nus[0])) +
+        f"Boxplots for {dataset} dataset with Matérn("
+        + r"$\nu=" + str(Fraction(nus[0])) +
         r"$), $\beta=" + str(betas[0]) + r"$" "\n",
         fontsize=30
     )
     plt.axhline(0, color=".3", dashes=(2, 2))
     if save:
+        filename = f"paper_results/plots/{dataset}_boxplot.pdf"
         plt.savefig(filename, bbox_inches="tight")
     plt.show()
