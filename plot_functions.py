@@ -44,7 +44,7 @@ def plot_width_error(model, model_name, ax, index_confidence):
 
 def plot_boxplot(
         models, alpha, color1, color2, color3, nus, betas,
-        dataset, objective="correlation", save=False
+        dataset, objective="correlation", nugget=None, save=False
 ):
     if objective == "width":
         item_dict = "boostrapped_width"
@@ -94,6 +94,9 @@ def plot_boxplot(
     )
     plt.axhline(0, color=".3", dashes=(2, 2))
     if save:
-        filename = f"paper_results/plots/{dataset}_boxplot.pdf"
+        if nugget is not None:
+            filename = f"paper_results/plots/{dataset}_nugget_{nugget}_boxplot.pdf"
+        else:
+            filename = f"paper_results/plots/{dataset}_boxplot.pdf"
         plt.savefig(filename, bbox_inches="tight")
     plt.show()
