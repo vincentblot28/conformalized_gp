@@ -40,7 +40,7 @@ print(
 # Define all possible models
 
 
-noise = .1
+noise = 10e-4
 
 
 nus = [1/2, 3/2, 5/2]
@@ -301,4 +301,6 @@ df_spearman = pd.DataFrame(
 
 df_results = pd.concat([df_cov.T, df_width.T, df_spearman.T], axis=1)
 
-df_results.to_csv("paper_results/table_results/morokoff_results.csv")
+df_results.to_csv(
+    "paper_results/table_results/morokoff_results_nugget_10_4.csv"
+)
