@@ -1,4 +1,4 @@
-Conformalizing Gaussian Processes For More Robust Uncertainty Quantification
+Enhancing Bayesian Credibility: A Conformal Approach to Gaussian Process Surrogate Evaluation
 ====================================================
 
 
