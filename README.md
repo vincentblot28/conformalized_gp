@@ -69,7 +69,7 @@ YELLOW = np.array([[242, 188, 64]]) / 255
 
 - In this example, we are going to work on an analytical function of our imagination which have some good visual behavior :
 
-$`g(x) = 3x\sin(x) - 2x\cos(x) + \frac{x^3}{40} - \frac{x^2}{2} - 10x`$
+$$`g(x) = 3x\sin(x) - 2x\cos(x) + \frac{x^3}{40} - \frac{x^2}{2} - 10x`$$
 
 
 ```python
