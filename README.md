@@ -1,4 +1,4 @@
-Enhancing Bayesian Credibility: A Conformal Approach to Gaussian Process Surrogate Evaluation
+Conformal Approach To Gaussian Process Surrogate Evaluation With Coverage Guarantees
 ====================================================
 
 
