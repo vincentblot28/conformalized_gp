@@ -62,6 +62,9 @@ models_hp = {
     "J+": {
         "nu": {nu: [1] for nu in nus}
     },
+    "J-minmax": {
+        "nu": {nu: [1] for nu in nus}
+    },
     "J+GP": {
         "nu": {nu: [.5, 1, 1.5] for nu in nus}
     },
@@ -164,7 +167,7 @@ for model_name, model in models.items():
             estimator_ = copy(
                 global_models[nu]["mapie_estimator_no_std"].estimator_
             )
-            estimator_.method = "plus"
+            estimator_.method = method
 
         models[model_name]["mapie_estimator"] = MapieRegressor(
             estimator=estimator_,
@@ -263,7 +266,8 @@ for model_name, model in models.items():
             (np.array(str_vect), ),
             spearman_correlation,
             axis=0,
-            n_resamples=999
+            n_resamples=999,
+            random_state=42
         ))
 
 
@@ -306,4 +310,4 @@ df_spearman = pd.DataFrame(
 
 df_results = pd.concat([df_cov.T, df_width.T, df_spearman.T], axis=1)
 
-df_results.to_csv("paper_results/mpg_results.csv")
+df_results.to_csv("paper_results/table_results/mpg_results.csv")
