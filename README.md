@@ -180,7 +180,7 @@ ax.set_ylabel("$g(x)$")
 
 
 
-⚡️ Plug OpenTURNS into MAPIE
+🔌 Plug OpenTURNS into MAPIE
 ===========================
 
 If you wish to use our code with an OpenTURNS model, we have implemented a simple wrapper around the model so that it
