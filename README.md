@@ -46,7 +46,7 @@ $ pip install .
 
 ⚡️ Quickstart
 ==============
-Here is a quickstart to use the Jackknife+GP method on any regression dataset. Here, the goal is the compare
+Here is a @quickstart to use the Jackknife+GP method on any regression dataset. Here, the goal is the compare
 visually the results given by the standard Jackknife+ method, the Credibility Intervals and our methodology.
 The notebook from which this quickstart is inspired can be found [here](https://github.com/vincentblot28/conformalized_gp/blob/main/notebook/conformalized_gp_quickstart.ipynb)
 
@@ -178,3 +178,20 @@ ax.set_ylabel("$g(x)$")
 ```
 ![toy function intervals](https://github.com/vincentblot28/conformalized_gp/blob/main/plots/intervals_toy_function.png)
 
+
+
+⚡️ Plug OpenTURNS into MAPIE
+===========================
+
+If you wish to use our code with an OpenTURNS model, we have implemented a simple wrapper around the model so that it
+can be used very easily:
+
+```python
+from wrappers import GpOTtoSklearnStd
+
+nu = 5/2  # Hyperparameter of the Matérn Kernel
+noise = None  # Standard deviation of the nugget effect. If None, no nugget effect is applied.
+gp_estimator = GpOTtoSklearnStd(scale=1, amplitude=1, nu=nu, noise=None)
+```
+
+This estimator is now fully compatible with MAPIE as it comes with it `.fit` and `.predict` methods.
