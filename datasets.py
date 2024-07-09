@@ -94,7 +94,7 @@ def get_wing_weight(noisy=False):
 
 
 def _noisy_morokoff(x, d, noisy):
-    noise = np.random.normal(0, np.sqrt(1e-4), x.shape[0]) if noisy else 0
+    noise = np.random.normal(0, np.sqrt(1e-3), x.shape[0]) if noisy else 0
     return .5 * (1 + 1 / d)**d * (x ** (1 / d)).prod(axis=1) + noise
 
 
@@ -123,7 +123,7 @@ def get_morokoff(noisy=False, nobs=600):
     mean = np.repeat(.5, d)
     std = np.std(X_est, axis=0)
     y = _noisy_morokoff(X, d, noisy)
-    X = custom_scaler(X, mean=mean, std=std)
+    # X = custom_scaler(X, mean=mean, std=std)
     return X, y
 
 
