@@ -32,7 +32,7 @@ $ pip install -r requirements.txt
 
 - Via conda:
 ```
-$ conda install -f environment.yml
+$ conda env create -f environment.yml
 ```
 
 🛠 Installation
@@ -40,7 +40,7 @@ $ conda install -f environment.yml
 
 Clone the repo and run the following command in the conformalized_gp directory to install the code
 ```
-$ pip install .
+$ pip install -e .
 ```
 
 
