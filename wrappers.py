@@ -9,13 +9,13 @@ class GpOTtoSklearnStd(BaseEstimator):
     """
     def __init__(
         self, scale: int, amplitude: float,
-        nu: float, noise: float = None
+        nu: float, nugget: bool = False
     ) -> None:
         self.scale = scale
         self.amplitude = amplitude
         self.nu = nu
         self.trained_ = False
-        self.noise = noise
+        self.nugget = nugget
 
     def fit(self, X_train, y_train):
 
@@ -24,8 +24,9 @@ class GpOTtoSklearnStd(BaseEstimator):
         amplitude = [self.amplitude]
 
         covarianceModel = ot.MaternModel(scale, amplitude, self.nu)
-        if self.noise:
-            covarianceModel.setNuggetFactor(self.noise)
+        
+        if self.nugget:
+            covarianceModel.activateNuggetFactor(True)
         basis = ot.ConstantBasisFactory(input_dim).build()
 
         self.gp = ot.KrigingAlgorithm(
@@ -33,6 +34,8 @@ class GpOTtoSklearnStd(BaseEstimator):
             ot.Sample(y_train.reshape(-1, 1)),
             covarianceModel, basis
         )
+        if self.nugget:
+            self.gp.setOptimizationAlgorithm(ot.NLopt("GN_DIRECT"))
 
         self.gp.run()
 
