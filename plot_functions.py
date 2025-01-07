@@ -95,8 +95,8 @@ def plot_boxplot(
     plt.axhline(0, color=".3", dashes=(2, 2))
     if save:
         if nugget is not None:
-            filename = f"paper_results/plots/{dataset}_nugget_{nugget}_boxplot.pdf"
+            filename = f"../plots/{dataset}_nugget_{nugget}_boxplot.pdf"
         else:
-            filename = f"paper_results/plots/{dataset}_boxplot.pdf"
+            filename = f"../plots/{dataset}_boxplot.pdf"
         plt.savefig(filename, bbox_inches="tight")
     plt.show()
