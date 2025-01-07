@@ -177,3 +177,75 @@ def get_thyc():
     X = custom_scaler(X, mean=mean, std=std)
 
     return X, y
+
+def branin(x, a=1, b=5.1 / (4 * np.pi**2), c=5 / np.pi, r=6, s=10, t=1 / (8 * np.pi)):
+    """
+    Branin (or Branin-Hoo) function. Ref https://www.sfu.ca/~ssurjano/branin.html
+    
+    Parameters:
+    - x: A list or numpy array of length 2.
+    - a, b, c, r, s, t: Coefficients with default recommended values.
+    
+    Returns:
+    - Value of the Branin function at x.
+    """
+    return a * (x[1] - b * x[0]**2 + c * x[0] - r)**2 + s * (1 - t) * np.cos(x[0]) + s
+
+
+def get_branin(noisy=False, nobs=1000):
+    np.random.seed(42)
+    X = np.random.uniform(low=[-5, 0], high=[10, 15], size=(nobs, 2))
+    y = np.array([branin(x) for x in X])
+    if noisy:
+        noise = np.random.normal(0, 1, nobs)
+        y += noise
+    return X, y
+
+
+def hartmann_3(x):
+    """
+    Hartmann 3-dimensional function. Ref https://www.sfu.ca/~ssurjano/hart3.html
+
+    Parameters:
+    - x: A list or numpy array of length 3.
+
+    Returns:
+    - Value of the Hartmann function at x.
+    """
+    # Ensure input is a numpy array
+    x = np.asarray(x)
+    assert x.shape == (3,), "Input x must be a 3-dimensional vector."
+
+    # Parameters
+    alpha = np.array([1.0, 1.2, 3.0, 3.2])
+    A = np.array([
+        [3.0, 10.0, 30.0],
+        [0.1, 10.0, 35.0],
+        [3.0, 10.0, 30.0],
+        [0.1, 10.0, 35.0]
+    ])
+    P = 10**-4 * np.array([
+        [3689, 1170, 2673],
+        [4699, 4387, 7470],
+        [1091, 8732, 5547],
+        [381, 5743, 8828]
+    ])
+
+    # Compute the function value
+    sum_terms = np.zeros(4)
+    for i in range(4):
+        inner_sum = np.sum(A[i, :] * (x - P[i, :])**2)
+        sum_terms[i] = alpha[i] * np.exp(-inner_sum)
+
+    return -np.sum(sum_terms)
+
+def get_hart3(noisy=False, nobs=1000):
+    np.random.seed(42)
+    X = np.random.uniform(low=0, high=1, size=(nobs, 3))
+    y = np.array([hartmann_3(x) for x in X])
+    if noisy:
+        noise = np.random.normal(0, 1, nobs)
+        y += noise
+    return X, y
+
+
