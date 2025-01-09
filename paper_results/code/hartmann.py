@@ -53,10 +53,10 @@ models_hp = {
         "nu": {nu: [1] for nu in nus}
     },
     "J+GP": {
-        "nu": {nu: [.5, 1, 1.5] for nu in nus}
+        "nu": {nu: [1] for nu in nus}
     },
     "J-minmax-GP": {
-        "nu": {nu: [.5, 1, 1.5] for nu in nus}
+        "nu": {nu: [1] for nu in nus}
     }
 }
 
