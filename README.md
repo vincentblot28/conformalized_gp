@@ -195,3 +195,10 @@ gp_estimator = GpOTtoSklearnStd(scale=1, amplitude=1, nu=nu, noise=None)
 ```
 
 This estimator is now fully compatible with MAPIE as it comes with it `.fit` and `.predict` methods.
+
+
+📝 License
+==========
+
+This repository is free and open-source licensed under the `license <https://github.com/vincentblot28/conformalized_gp/blob/main/LICENSE>`_.
+
