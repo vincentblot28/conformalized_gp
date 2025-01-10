@@ -200,5 +200,5 @@ This estimator is now fully compatible with MAPIE as it comes with it `.fit` and
 📝 License
 ==========
 
-This repository is free and open-source licensed under the ![license](https://github.com/vincentblot28/conformalized_gp/blob/main/LICENSE).
+This repository is free and open-source licensed under the [license](https://github.com/vincentblot28/conformalized_gp/blob/main/LICENSE).
 
