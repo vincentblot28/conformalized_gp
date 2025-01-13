@@ -20,7 +20,10 @@ class GpOTtoSklearnStd(BaseEstimator):
     def fit(self, X_train, y_train):
 
         input_dim = X_train.shape[1]
-        scale = input_dim * [self.scale]
+        if isinstance(self.scale, int):
+            scale = input_dim * [self.scale]
+        else:
+            scale = self.scale
         amplitude = [self.amplitude]
 
         covarianceModel = ot.MaternModel(scale, amplitude, self.nu)
